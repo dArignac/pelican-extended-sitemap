@@ -4,6 +4,9 @@ A sitemap plugin for [Pelican](https://github.com/getpelican/pelican).
 
 It generates a sitemap.xml according to the specification of [sitemaps.org](http://sitemaps.org) and considers the pelican index page, articles, pages and special pages (like tags, categories, authors).
 
+**ATTENTION: Plugin is in heavy development - do not use yet!**
+
+
 ### Pelican settings
 
 Add to the plugins list:
