@@ -27,14 +27,16 @@ class SitemapGenerator(object):
 
     settings_default = {
         'priorities': {
-            'indexes': 1.0,
+            'index': 1.0,
             'articles': 0.8,
             'pages': 0.5,
+            'others': 0.4
         },
         'changefrequencies': {
-            'indexes': 'daily',
+            'index': 'daily',
             'articles': 'weekly',
             'pages': 'monthly',
+            'others': 'monthly',
         }
     }
 
