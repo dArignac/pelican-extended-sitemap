@@ -67,6 +67,7 @@ class SitemapGenerator(object):
                 xsl = xsl.replace('{{ SITENAME }}', self.context.get('SITENAME'))
                 fd_destination.write(xsl)
 
+        # will contain the url nodes as text
         urls = ''
 
         def content_datetime_compare(x, y):
@@ -81,19 +82,35 @@ class SitemapGenerator(object):
             """
             return x.date > y.date
 
-        # TODO process indexes
+        # get all articles sorted by time
+        articles_sorted = sorted(self.context['articles'], cmp=content_datetime_compare)
+
+        # the landing page
+        if 'index' in self.context.get('DIRECT_TEMPLATES'):
+            urls += self.__create_url_node_for_content(articles_sorted[0], 'indexes', overwrite_url=self.context.get('SITEURL'))
 
         # process articles
-        for article in sorted(self.context['articles'], cmp=content_datetime_compare):
-            urls += self.template_url % {
-                'loc': urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**article.url_format)),
-                # W3C YYYY-MM-DDThh:mm:ssTZD
-                'lastmod': article.date.strftime('%Y-%m-%dT%H:%M:%S%z'),
-                'changefreq': self.settings.get('changefrequencies').get('articles'),
-                'priority': self.settings.get('priorities').get('articles'),
-            }
+        for article in articles_sorted:
+            urls += self.__create_url_node_for_content(article, 'articles')
 
-        # TODO process pages
+        # process pages
+        for page in sorted(self.context['pages'], cmp=content_datetime_compare):
+            urls += self.__create_url_node_for_content(page, 'pages')
+
+        # process configured index pages
+        for element in self.context.get('DIRECT_TEMPLATES'):
+            if element == 'tags':
+                # TODO implement
+                pass
+            elif element == 'categories':
+                # TODO implement
+                pass
+            elif element == 'authors':
+                # TODO implement
+                pass
+            elif element == 'archives':
+                # TODO implement
+                pass
 
         # write the final sitemap file
         with open(os.path.join(self.path_output, 'sitemap.xml'), 'w', encoding='utf-8') as fd:
@@ -101,6 +118,15 @@ class SitemapGenerator(object):
                 'SITEURL': self.url_site,
                 'urls': urls
             })
+
+    def __create_url_node_for_content(self, content, content_type, overwrite_url=None):
+        return self.template_url % {
+            'loc': overwrite_url if overwrite_url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format)),
+            # W3C YYYY-MM-DDThh:mm:ssTZD
+            'lastmod': content.date.strftime('%Y-%m-%dT%H:%M:%S%z'),
+            'changefreq': self.settings.get('changefrequencies').get(content_type),
+            'priority': self.settings.get('priorities').get(content_type),
+        }
 
 
 def get_generators(generators):
