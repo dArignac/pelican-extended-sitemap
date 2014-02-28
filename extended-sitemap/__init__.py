@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 import os
 
 from codecs import open
@@ -93,28 +94,11 @@ class SitemapGenerator(object):
             """
             return x.date > y.date
 
-        def urlwrapper_datetime_compare(x, y):
-            """
-            Compares two pelican.urlwrappers.URLWrapper constructs (like Tag, Category) with each other based on their article date property.
-            Input has to be a list of tuples containing the URLWrapper on first index and a single article on second index of the tuple.
-            :param x: first construct
-            :type x: tuple
-            :param y: second construct
-            :type x: tuple
-            :returns: if x is before y
-            :rtype: bool
-            """
-            return x[1].date > y[1].date
-
         # get all articles sorted by time
         articles_sorted = sorted(self.context['articles'], cmp=content_datetime_compare)
 
-        # comprehend tags
-        tags_sorted = []
-        for tag in self.context.get('tags'):
-            for article in tag[1]:
-                tags_sorted.append((tag[0], article))
-        tags_sorted = sorted(tags_sorted, cmp=urlwrapper_datetime_compare)
+        # comprehend and sort tags
+        tags_sorted = self.__comprehend_urlwrappers(self.context.get('tags'))
 
         # the landing page
         if 'index' in self.context.get('DIRECT_TEMPLATES'):
@@ -132,7 +116,7 @@ class SitemapGenerator(object):
         # process configured index pages
         for element in self.context.get('DIRECT_TEMPLATES'):
             if element == 'tags':
-                urls += self.__create_url_node_for_content(tags_sorted[0][1], 'others', overwrite_url=self.url_tags)
+                urls += self.__create_url_node_for_content(tags_sorted[0][0], 'others', overwrite_url=self.url_tags)
             elif element == 'categories':
                 # TODO implement
                 pass
@@ -149,6 +133,25 @@ class SitemapGenerator(object):
                 'SITEURL': self.url_site,
                 'urls': urls
             })
+
+    @staticmethod
+    def __comprehend_urlwrappers(urlwrappers):
+        """
+        Fetches all urlwrapper elements (tags, categories, archives) from the given wrapper based tupled list and creates a single list entry for each article
+        the wrapper belongs to as (<article>, <wrapper>) tuple.
+        :param urlwrappers: list of urlwrapper object as given by generator init method context
+        :type urlwrappers: mixed
+        :return: list of tuples
+        :rtype: list
+        """
+        list_sorted = []
+        for wrapper in urlwrappers:
+            for article in wrapper[1]:
+                list_sorted.append((article, wrapper[0]))
+
+        list_sorted.sort(key=lambda x: x[0].date)
+        list_sorted.reverse()
+        return list_sorted
 
     def __create_url_node_for_content(self, content, content_type, overwrite_url=None):
         """
