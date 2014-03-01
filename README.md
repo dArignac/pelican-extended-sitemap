@@ -6,6 +6,7 @@ It generates a sitemap.xml according to the specification of [sitemaps.org](http
 Also comes with a XML stylesheet to be able to view the sitemap in browser without pain.
 
 **ATTENTION: Plugin is in heavy development - do not use yet!**
+**Plugin is not tested with multilingual pages!**
 
 
 ### Pelican settings
