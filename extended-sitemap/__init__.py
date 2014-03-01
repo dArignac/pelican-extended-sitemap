@@ -10,7 +10,7 @@ from pelican import signals
 from urlparse import urljoin
 
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 
 class SitemapGenerator(object):

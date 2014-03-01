@@ -6,14 +6,11 @@ A sitemap plugin for `Pelican`_.
 It generates a sitemap.xml according to the specification of [sitemaps.org](http://sitemaps.org) and considers the pelican index page, articles, pages and special pages (like tags, categories, authors).
 Also comes with a XML stylesheet to be able to view the sitemap in browser without pain.
 
-**ATTENTION: Plugin is in heavy development - do not use yet!**
-
 ToDos
 -----
 
 What still has to be implemented:
 
-* become a real python package
 * i18n articles aso (maybe)
 
 
