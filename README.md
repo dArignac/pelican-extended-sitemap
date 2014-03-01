@@ -11,8 +11,6 @@ Also comes with a XML stylesheet to be able to view the sitemap in browser witho
 
 What still has to be implemented:
 
-* archives handling
-* url settings for pages that cannot have set a separate url: categories.html, authors.html, maybe archives.html
 * make a real python package
 * i18n (maybe)
 
@@ -37,7 +35,7 @@ The keys explained:
  * index: index page
  * articles: article pages
  * pages: pages
- * others: index pages like tags, author, categories
+ * others: category, tags and authors pages
 * changefrequencies: how often a page will likely change, possible values: always, hourly, daily, weekly, monthly, yearly, never
 
 The settings below are the default values:

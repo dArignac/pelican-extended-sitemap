@@ -41,6 +41,9 @@ class SitemapGenerator(object):
         }
     }
 
+    # date format as W3C YYYY-MM-DDThh:mm:ssTZD
+    date_format = '%Y-%m-%dT%H:%M:%S%z'
+
     def __init__(self, context, settings, path, theme, output_path, **kwargs):
         """
         Initializes the generator class.
@@ -61,11 +64,6 @@ class SitemapGenerator(object):
         self.path_output = output_path
         self.context = context
         self.url_site = settings.get('SITEURL')
-        self.url_direct_templates = {
-            'tags': urljoin(self.url_site, settings.get('TAGS_URL', 'tags.html')),
-            'categories': urljoin(self.url_site, settings.get('CATEGORIES_SAVE_AS', 'categories.html')),
-            'authors': urljoin(self.url_site, settings.get('AUTHORS_URL', 'authors.html')),
-        }
         self.settings = settings.get('EXTENDED_SITEMAP_PLUGIN', self.settings_default)
 
     def generate_output(self, writer):
@@ -86,40 +84,38 @@ class SitemapGenerator(object):
         # will contain the url nodes as text
         urls = ''
 
-        def content_datetime_compare(x, y):
-            """
-            Compares two pelican.contents.Content classes with each other based on their date property.
-            :param x: first content element
-            :type x: pelican.contents.Content
-            :param y: second content element
-            :type x: pelican.contents.Content
-            :returns: if x is before y
-            :rtype: bool
-            """
-            return x.date > y.date
-
         # get all articles sorted by time
-        articles_sorted = sorted(self.context['articles'], cmp=content_datetime_compare)
+        articles_sorted = sorted(self.context['articles'], key=lambda x: x.date, reverse=True)
 
         # the landing page
         if 'index' in self.context.get('DIRECT_TEMPLATES'):
             # assume that the index page has changed with the most current article
-            urls += self.__create_url_node_for_content(articles_sorted[0], 'index', overwrite_url=self.context.get('SITEURL'))
+            urls += self.__create_url_node_for_content(
+                articles_sorted[0],
+                'index',
+                url=self.url_site,
+            )
 
         # process articles
         for article in articles_sorted:
             urls += self.__create_url_node_for_content(article, 'articles')
 
         # process pages
-        for page in sorted(self.context['pages'], cmp=content_datetime_compare):
-            urls += self.__create_url_node_for_content(page, 'pages')
+        for page in sorted(self.context.get('pages'), key=lambda x: x.date, reverse=True):
+            urls += self.__create_url_node_for_content(
+                page,
+                'pages',
+                url=urljoin(self.url_site, page.url)
+            )
 
-        # process configured index pages
-        for element in self.context.get('DIRECT_TEMPLATES'):
-            # index is handled before
-            # TODO handle archives
-            if element != 'index' and element != 'archives':
-                urls += self.__create_direct_template_node(element)
+        # process category pages
+        urls += self.__process_url_wrapper_elements(self.context.get('categories'))
+
+        # process tag pages
+        urls += self.__process_url_wrapper_elements(self.context.get('tags'))
+
+        # process author pages
+        urls += self.__process_url_wrapper_elements(self.context.get('authors'))
 
         # write the final sitemap file
         with open(os.path.join(self.path_output, 'sitemap.xml'), 'w', encoding='utf-8') as fd:
@@ -128,55 +124,41 @@ class SitemapGenerator(object):
                 'urls': urls
             })
 
-    def __create_direct_template_node(self, name):
+    def __process_url_wrapper_elements(self, elements):
         """
-        Creates the url nodes for direct template pages but index page.
-        :param name: the name of the direct template, can be: tags, categories, archives, authors.
-        :type name: str
-        :return: url node html
+        Creates the url nodes for pelican.urlwrappers.Category and pelican.urlwrappers.Tag.
+        :param elements: list of wrapper elements
+        :type elements: list
+        :return: the processes urls as HTML
         :rtype: str
         """
-        return self.__create_url_node_for_content(
-            self.__comprehend_urlwrappers(self.context.get(name))[0][0],
-            'others',
-            overwrite_url=self.url_direct_templates[name],
-        )
+        urls = ''
+        for url_wrapper, articles in elements:
+            urls += self.__create_url_node_for_content(
+                url_wrapper,
+                'others',
+                url=urljoin(self.url_site, url_wrapper.url),
+                modification_time=sorted(articles, key=lambda x: x.date, reverse=True)[0].date
+            )
+        return urls
 
-    @staticmethod
-    def __comprehend_urlwrappers(urlwrappers):
-        """
-        Fetches all urlwrapper elements (tags, categories, archives) from the given wrapper based tupled list and creates a single list entry for each article
-        the wrapper belongs to as (<article>, <wrapper>) tuple.
-        :param urlwrappers: list of urlwrapper object as given by generator init method context
-        :type urlwrappers: mixed
-        :return: list of tuples
-        :rtype: list
-        """
-        list_sorted = []
-        for wrapper in urlwrappers:
-            for article in wrapper[1]:
-                list_sorted.append((article, wrapper[0]))
-
-        list_sorted.sort(key=lambda x: x[0].date)
-        list_sorted.reverse()
-        return list_sorted
-
-    def __create_url_node_for_content(self, content, content_type, overwrite_url=None):
+    def __create_url_node_for_content(self, content, content_type, url=None, modification_time=None):
         """
         Creates the required <url> node for the sitemap xml.
         :param content: the content class to handle
         :type content: pelican.contents.Content
         :param content_type: the type of the given content to match settings.EXTENDED_SITEMAP_PLUGIN
         :type content_type; str
-        :param overwrite_url; if given, the URL to use instead of the url of the content instance
-        :type overwrite_url: str
+        :param url; if given, the URL to use instead of the url of the content instance
+        :type url: str
+        :param modification_time: the modification time of the url, will be used instead of content date if given
+        :type modification_time: datetime.datetime
         :returns: the text node
         :rtype: str
         """
         return self.template_url % {
-            'loc': overwrite_url if overwrite_url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format)),
-            # W3C YYYY-MM-DDThh:mm:ssTZD
-            'lastmod': content.date.strftime('%Y-%m-%dT%H:%M:%S%z'),
+            'loc': url if url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format)),
+            'lastmod': modification_time.strftime(self.date_format) if modification_time is not None else content.date.strftime(self.date_format),
             'changefreq': self.settings.get('changefrequencies').get(content_type),
             'priority': self.settings.get('priorities').get(content_type),
         }
