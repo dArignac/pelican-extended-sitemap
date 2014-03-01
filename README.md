@@ -13,6 +13,7 @@ What still has to be implemented:
 
 * archives handling
 * url settings for pages that cannot have set a separate url: categories.html, authors.html, maybe archives.html
+* make a real python package
 * i18n (maybe)
 
 
