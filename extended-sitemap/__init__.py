@@ -61,7 +61,11 @@ class SitemapGenerator(object):
         self.path_output = output_path
         self.context = context
         self.url_site = settings.get('SITEURL')
-        self.url_tags = urljoin(self.url_site, settings.get('TAGS_URL', 'tags.html'))
+        self.url_direct_templates = {
+            'tags': urljoin(self.url_site, settings.get('TAGS_URL', 'tags.html')),
+            'categories': urljoin(self.url_site, settings.get('CATEGORIES_SAVE_AS', 'categories.html')),
+            'authors': urljoin(self.url_site, settings.get('AUTHORS_URL', 'authors.html')),
+        }
         self.settings = settings.get('EXTENDED_SITEMAP_PLUGIN', self.settings_default)
 
     def generate_output(self, writer):
@@ -97,9 +101,6 @@ class SitemapGenerator(object):
         # get all articles sorted by time
         articles_sorted = sorted(self.context['articles'], cmp=content_datetime_compare)
 
-        # comprehend and sort tags
-        tags_sorted = self.__comprehend_urlwrappers(self.context.get('tags'))
-
         # the landing page
         if 'index' in self.context.get('DIRECT_TEMPLATES'):
             # assume that the index page has changed with the most current article
@@ -115,17 +116,10 @@ class SitemapGenerator(object):
 
         # process configured index pages
         for element in self.context.get('DIRECT_TEMPLATES'):
-            if element == 'tags':
-                urls += self.__create_url_node_for_content(tags_sorted[0][0], 'others', overwrite_url=self.url_tags)
-            elif element == 'categories':
-                # TODO implement
-                pass
-            elif element == 'authors':
-                # TODO implement
-                pass
-            elif element == 'archives':
-                # TODO implement
-                pass
+            # index is handled before
+            # TODO handle archives
+            if element != 'index' and element != 'archives':
+                urls += self.__create_direct_template_node(element)
 
         # write the final sitemap file
         with open(os.path.join(self.path_output, 'sitemap.xml'), 'w', encoding='utf-8') as fd:
@@ -133,6 +127,20 @@ class SitemapGenerator(object):
                 'SITEURL': self.url_site,
                 'urls': urls
             })
+
+    def __create_direct_template_node(self, name):
+        """
+        Creates the url nodes for direct template pages but index page.
+        :param name: the name of the direct template, can be: tags, categories, archives, authors.
+        :type name: str
+        :return: url node html
+        :rtype: str
+        """
+        return self.__create_url_node_for_content(
+            self.__comprehend_urlwrappers(self.context.get(name))[0][0],
+            'others',
+            overwrite_url=self.url_direct_templates[name],
+        )
 
     @staticmethod
     def __comprehend_urlwrappers(urlwrappers):
