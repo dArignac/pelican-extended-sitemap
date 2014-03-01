@@ -6,7 +6,14 @@ It generates a sitemap.xml according to the specification of [sitemaps.org](http
 Also comes with a XML stylesheet to be able to view the sitemap in browser without pain.
 
 **ATTENTION: Plugin is in heavy development - do not use yet!**
-**Plugin is not tested with multilingual pages!**
+
+### ToDos
+
+What still has to be implemented:
+
+* archives handling
+* url settings for pages that cannot have set a separate url: categories.html, authors.html, maybe archives.html
+* i18n (maybe)
 
 
 ### Pelican settings
