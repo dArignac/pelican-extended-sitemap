@@ -23,7 +23,7 @@ Add to the plugins list:
 .. code-block:: python
 
     PLUGINS = [
-        'plugins.extended-sitemap'
+        'extended-sitemap'
     ]
 
 
