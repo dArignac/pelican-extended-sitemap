@@ -59,8 +59,9 @@ ToDos
 
 What still has to be implemented:
 
-* i18n articles aso (maybe)
+* support for multilingual content, see `http://docs.getpelican.com/en/3.3.0/getting_started.html#translations`_ (in fact it may work, have not tested it)
 
 
 .. _Pelican: https://github.com/getpelican/pelican
 .. _sitemaps.org: http://sitemaps.org
+.. _http://docs.getpelican.com/en/3.3.0/getting_started.html#translations: http://docs.getpelican.com/en/3.3.0/getting_started.html#translations
