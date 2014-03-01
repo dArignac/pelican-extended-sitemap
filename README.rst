@@ -6,6 +6,8 @@ A sitemap plugin for `Pelican`_.
 It generates a sitemap.xml according to the specification of `sitemaps.org`_ and considers the pelican index page, articles, pages and special pages (like tags, categories, authors).
 Also comes with a XML stylesheet to be able to view the sitemap in browser without pain.
 
+There is also a `sitemap plugin`_ within the official pelican plugin repo, but it did not produce the expected results for me.
+
 Pelican settings
 ----------------
 
@@ -59,9 +61,10 @@ ToDos
 
 What still has to be implemented:
 
-* support for multilingual content, see `http://docs.getpelican.com/en/3.3.0/getting_started.html#translations`_ (in fact it may work, have not tested it)
+* support for multilingual content, see `pelican translations`_ (in fact it may work, have not tested it)
 
 
 .. _Pelican: https://github.com/getpelican/pelican
 .. _sitemaps.org: http://sitemaps.org
-.. _http://docs.getpelican.com/en/3.3.0/getting_started.html#translations: http://docs.getpelican.com/en/3.3.0/getting_started.html#translations
+.. _sitemap plugin: https://github.com/getpelican/pelican-plugins/tree/master/sitemap
+.. _pelican translations: http://docs.getpelican.com/en/3.3.0/getting_started.html#translations
