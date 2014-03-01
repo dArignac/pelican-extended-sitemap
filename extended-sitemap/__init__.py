@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import datetime
 import os
 
@@ -7,6 +8,9 @@ from codecs import open
 from pelican import signals
 
 from urlparse import urljoin
+
+
+__version__ = '0.1.0'
 
 
 class SitemapGenerator(object):
