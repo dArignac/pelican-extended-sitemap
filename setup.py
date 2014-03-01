@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import codecs
+import os
 import re
 
 from setuptools import setup
@@ -15,7 +16,7 @@ def get_version():
     :return: version number
     :rtype: str
     """
-    with codecs.open('extended-sitemap/__init__.py', encoding='utf-8') as f:
+    with codecs.open(os.path.join(os.path.dirname(__file__), 'extended-sitemap', '__init__.py'), encoding='utf-8') as f:
         version_file = f.read()
         version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
         if version_match:
@@ -26,7 +27,7 @@ def get_version():
 setup(
     name='pelican-extended-sitemap',
     description='sitemap generator plugin for pelican',
-    version='0.1.0',
+    version=get_version(),
     author='Alexander Herrmann',
     author_email='darignac@gmail.com',
     license='MIT',
