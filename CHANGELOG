@@ -1,3 +1,9 @@
+0.1.4
+-----
+
+* fixed date format in sitemap
+* chamged xml stylesheet link for this package to PyPI
+
 0.1.3
 -----
 

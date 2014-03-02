@@ -61,7 +61,7 @@ ToDos
 
 What still has to be implemented:
 
-* support for multilingual content, see `pelican translations`_ (in fact it may work, have not tested it)
+* support for multilingual content, see `pelican translations`_ (it in fact may work, but I have not tested it)
 
 
 .. _Pelican: https://github.com/getpelican/pelican

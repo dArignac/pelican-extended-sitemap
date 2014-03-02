@@ -7,10 +7,12 @@ from codecs import open
 
 from pelican import signals
 
+from pytz import timezone
+
 from urlparse import urljoin
 
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 
 
 class SitemapGenerator(object):
@@ -45,9 +47,6 @@ class SitemapGenerator(object):
         }
     }
 
-    # date format as W3C YYYY-MM-DDThh:mm:ssTZD
-    date_format = '%Y-%m-%dT%H:%M:%S%z'
-
     def __init__(self, context, settings, path, theme, output_path, **kwargs):
         """
         Initializes the generator class.
@@ -67,6 +66,7 @@ class SitemapGenerator(object):
         self.path_content = path
         self.path_output = output_path
         self.context = context
+        self.timezone = timezone(settings.get('TIMEZONE'))
         self.url_site = settings.get('SITEURL')
         self.settings = settings.get('EXTENDED_SITEMAP_PLUGIN', self.settings_default)
 
@@ -162,7 +162,7 @@ class SitemapGenerator(object):
         """
         return self.template_url % {
             'loc': url if url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format)),
-            'lastmod': modification_time.strftime(self.date_format) if modification_time is not None else content.date.strftime(self.date_format),
+            'lastmod': self.timezone.localize(modification_time).isoformat() if modification_time is not None else self.timezone.localize(content.date).isoformat(),
             'changefreq': self.settings.get('changefrequencies').get(content_type),
             'priority': self.settings.get('priorities').get(content_type),
         }
