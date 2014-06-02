@@ -8,6 +8,9 @@ Also comes with a XML stylesheet to be able to view the sitemap in browser witho
 
 There is also a `sitemap plugin`_ within the official pelican plugin repo, but it did not produce the expected results for me.
 
+* Github: `https://github.com/dArignac/pelican-extended-sitemap`_
+* PyPI: `https://pypi.python.org/pypi/pelican-extended-sitemap`_
+
 Pelican settings
 ----------------
 
@@ -68,3 +71,5 @@ What still has to be implemented:
 .. _sitemaps.org: http://sitemaps.org
 .. _sitemap plugin: https://github.com/getpelican/pelican-plugins/tree/master/sitemap
 .. _pelican translations: http://docs.getpelican.com/en/3.3.0/getting_started.html#translations
+.. _https://github.com/dArignac/pelican-extended-sitemap: https://github.com/dArignac/pelican-extended-sitemap
+.. _https://pypi.python.org/pypi/pelican-extended-sitemap: https://pypi.python.org/pypi/pelican-extended-sitemap
