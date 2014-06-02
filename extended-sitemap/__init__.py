@@ -2,6 +2,7 @@
 
 import datetime
 import os
+import sys
 
 from codecs import open
 
@@ -9,7 +10,10 @@ from pelican import signals
 
 from pytz import timezone
 
-from urlparse import urljoin
+if sys.version_info >= (3, 0):
+    from urllib.parse import urljoin
+else:
+    from urlparse import urljoin
 
 
 __version__ = '0.1.4'
