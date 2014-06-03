@@ -72,6 +72,8 @@ class SitemapGenerator(object):
         self.context = context
         self.timezone = timezone(settings.get('TIMEZONE'))
         self.url_site = settings.get('SITEURL')
+        if not self.url_site.endswith('/'):
+            self.url_site += '/'
         self.settings = settings.get('EXTENDED_SITEMAP_PLUGIN', self.settings_default)
 
     def generate_output(self, writer):
