@@ -82,6 +82,11 @@ class SitemapGenerator(object):
             raise ConfigurationError('Please specify the TIMEZONE setting!')
         self.timezone = timezone(settings.get('TIMEZONE'))
         self.url_site = settings.get('SITEURL')
+        # Pelican strips off trailing slashes during settings initialization.
+        # The later used urljoin function strips of path elements not ending with a trailing slash, 
+        # a slash is added here if it is not already present
+        if not self.url_site.endswith('/'):
+            self.url_site += '/'
         self.settings = settings.get('EXTENDED_SITEMAP_PLUGIN', self.settings_default)
 
     def generate_output(self, writer):
