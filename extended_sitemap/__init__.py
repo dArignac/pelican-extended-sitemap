@@ -32,7 +32,7 @@ class SitemapGenerator(object):
     Class for generating a sitemap.xml.
     """
 
-    xml_wrap = """<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="%(SITEURL)s/sitemap-stylesheet.xsl"?>
+    xml_wrap = """<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="%(SITEURL)ssitemap-stylesheet.xsl"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 %(urls)s
 </urlset>"""
@@ -83,7 +83,7 @@ class SitemapGenerator(object):
         self.timezone = timezone(settings.get('TIMEZONE'))
         self.url_site = settings.get('SITEURL')
         # Pelican strips off trailing slashes during settings initialization.
-        # The later used urljoin function strips of path elements not ending with a trailing slash, 
+        # The later used urljoin function strips of path elements not ending with a trailing slash,
         # a slash is added here if it is not already present
         if not self.url_site.endswith('/'):
             self.url_site += '/'
