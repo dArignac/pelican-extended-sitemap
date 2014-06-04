@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
 
+import filecmp
 import locale
 import os
 import unittest
@@ -17,12 +18,30 @@ from pelican.tests.support import mute
 # used paths
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CONTENT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, 'content'))
+EXPECTED_DIR = os.path.abspath(os.path.join(CURRENT_DIR, 'expected'))
 OUTPUT_PATH = os.path.abspath(os.path.join(CURRENT_DIR, 'output'))
 
 # TODO ensure Python 3 works, too
 
 
-class ExtendedSitemapTest(unittest.TestCase):
+class FileComparisonTest(unittest.TestCase):
+    """
+    Unittest class with possibility to assert equal file contents.
+    """
+    def assertFileContentEquals(self, path_file_expected, path_file_test):
+        """
+        Asserts the file contents to be equal.
+        :param path_file_expected: path to the file with the expected content
+        :type path_file_expected: str
+        :param path_file_test: path to the file to test
+        :type path_file_test: str
+        """
+        # TODO display differences in files, consider TravisCI possibilities
+        if not filecmp.cmp(path_file_expected, path_file_test):
+            self.fail('File content of %(filename)s does not match expected content!' % {'filename': path_file_test})
+
+
+class ExtendedSitemapTest(FileComparisonTest):
 
     def setUp(self):
         self.path_temp = mkdtemp(prefix='extended_sitemap_tests.')
@@ -36,6 +55,7 @@ class ExtendedSitemapTest(unittest.TestCase):
             'OUTPUT_PATH': self.path_temp,
             'CACHE_PATH': self.path_cache,
             'LOCALE': locale.normalize('en_US'),
+            'SITEURL': 'http://example.com',
             'PLUGIN_PATH': os.path.join(CURRENT_DIR, '..'),
             'PLUGINS': ['extended_sitemap'],
         }
@@ -61,7 +81,28 @@ class ExtendedSitemapTest(unittest.TestCase):
         """
         self.assertRaises(ConfigurationError, self.__execute_pelican)
 
-    # TODO remove
-    def test_something(self):
-        self.__execute_pelican(settings_override={'TIMEZONE': 'Europe/Berlin'})
-        self.assertTrue(True)
+    def test_sitemap_structure(self):
+        """
+        Tests basic structure of generated sitemap.
+        """
+        self.__execute_pelican(
+            settings_override={
+                'TIMEZONE': 'Europe/Berlin',
+            }
+        )
+        self.assertFileContentEquals(
+            os.path.join(EXPECTED_DIR, 'test_sitemap_structure.xml'),
+            os.path.join(self.path_temp, 'sitemap.xml')
+        )
+
+        # issue #2
+        self.__execute_pelican(
+            settings_override={
+                'TIMEZONE': 'Europe/Berlin',
+                'SITEURL': 'http://example.com/subpath',
+            }
+        )
+        self.assertFileContentEquals(
+            os.path.join(EXPECTED_DIR, 'test_sitemap_structure_subpath.xml'),
+            os.path.join(self.path_temp, 'sitemap.xml')
+        )

@@ -42,6 +42,7 @@ setup(
             'sitemap-stylesheet.xsl',
             'tests/content/articles/*.md',
             'tests/content/pages/*.md',
+            'tests/expected/*.xml',
         ],
     },
     requires=[
