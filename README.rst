@@ -11,6 +11,11 @@ There is also a `sitemap plugin`_ within the official pelican plugin repo, but i
 * Github: `https://github.com/dArignac/pelican-extended-sitemap`_
 * PyPI: `https://pypi.python.org/pypi/pelican-extended-sitemap`_
 
+**NOTICE: Backwards incompatible changes in 1.0.0:**
+In version 1.0.0 the package naming has been fixed, it's now called "extended_sitemap" (instead "extended-sitemap") following PEP8.
+Please adjust your usages in *PLUGINS* appropriately.
+
+
 Pelican settings
 ----------------
 
@@ -20,7 +25,7 @@ Add to the plugins list:
 .. code-block:: python
 
     PLUGINS = [
-        'extended-sitemap'
+        'extended_sitemap'
     ]
 
 
@@ -57,6 +62,11 @@ The settings below are the default values:
             'others': 'monthly',
         }
     }
+
+Tests
+-----
+
+The tests fixture files were created with generated content by `http://jaspervdj.be/lorem-markdownum/<http://jaspervdj.be/lorem-markdownum/>`_.
 
 
 ToDos

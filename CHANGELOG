@@ -1,3 +1,10 @@
+1.0.0
+-----
+
+* fixed wrong package naming, now "extended_sitemap" instead "extended-sitemap"
+* added unit tests
+* raise ConfigurationError if TIMEZONE setting is not set
+
 0.2.0
 -----
 

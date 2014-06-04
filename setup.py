@@ -16,7 +16,7 @@ def get_version():
     :return: version number
     :rtype: str
     """
-    with codecs.open(os.path.join(os.path.dirname(__file__), 'extended-sitemap', '__init__.py'), encoding='utf-8') as f:
+    with codecs.open(os.path.join(os.path.dirname(__file__), 'extended_sitemap', '__init__.py'), encoding='utf-8') as f:
         version_file = f.read()
         version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
         if version_match:
@@ -34,11 +34,14 @@ setup(
     url='https://github.com/dArignac/pelican-extended-sitemap',
     long_description=long_description,
     packages=[
-        'extended-sitemap',
+        'extended_sitemap',
+        'extended_sitemap.tests',
     ],
     package_data={
-        'extended-sitemap': [
-            'sitemap-stylesheet.xsl'
+        'extended_sitemap': [
+            'sitemap-stylesheet.xsl',
+            'tests/content/articles/*.md',
+            'tests/content/pages/*.md',
         ],
     },
     requires=[

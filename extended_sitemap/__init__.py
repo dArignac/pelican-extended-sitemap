@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals, print_function
 
 import datetime
 import os
@@ -15,8 +16,15 @@ if sys.version_info >= (3, 0):
 else:
     from urlparse import urljoin
 
+# @see http://semver.org/
+__version__ = '1.0.0'
 
-__version__ = '0.2.0'
+
+class ConfigurationError(StandardError):
+    """
+    Exception class for wrong configurations.
+    """
+    pass
 
 
 class SitemapGenerator(object):
@@ -70,6 +78,8 @@ class SitemapGenerator(object):
         self.path_content = path
         self.path_output = output_path
         self.context = context
+        if settings.get('TIMEZONE', None) is None:
+            raise ConfigurationError('Please specify the TIMEZONE setting!')
         self.timezone = timezone(settings.get('TIMEZONE'))
         self.url_site = settings.get('SITEURL')
         self.settings = settings.get('EXTENDED_SITEMAP_PLUGIN', self.settings_default)

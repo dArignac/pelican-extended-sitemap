@@ -1,2 +1,4 @@
 include README.rst
-include extended-sitemap/sitemap-stylesheet.xsl
+include extended_sitemap/sitemap-stylesheet.xsl
+include extended_sitemap/tests/content/articles/*.md
+include extended_sitemap/tests/content/pages/*.md
