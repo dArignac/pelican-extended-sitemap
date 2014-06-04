@@ -135,7 +135,7 @@ class SitemapGenerator(object):
         urls += self.__process_url_wrapper_elements(self.context.get('categories'))
 
         # process tag pages
-        urls += self.__process_url_wrapper_elements(self.context.get('tags'))
+        urls += self.__process_url_wrapper_elements(sorted(self.context.get('tags'), key=lambda x: x[0].name))
 
         # process author pages
         urls += self.__process_url_wrapper_elements(self.context.get('authors'))

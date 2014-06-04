@@ -4,6 +4,7 @@
 * fixed wrong package naming, now "extended_sitemap" instead "extended-sitemap"
 * added unit tests
 * raise ConfigurationError if TIMEZONE setting is not set
+* tags are now sorted by name
 
 0.2.0
 -----

@@ -46,11 +46,6 @@
 <changefreq>monthly</changefreq>
 <priority>0.40</priority>
 </url><url>
-<loc>http://example.com/subpath/tag/tag4.html</loc>
-<lastmod>2014-06-01T10:12:00+02:00</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.40</priority>
-</url><url>
 <loc>http://example.com/subpath/tag/tag0.html</loc>
 <lastmod>2007-11-19T21:16:00+01:00</lastmod>
 <changefreq>monthly</changefreq>
@@ -67,6 +62,11 @@
 <priority>0.40</priority>
 </url><url>
 <loc>http://example.com/subpath/tag/tag3.html</loc>
+<lastmod>2014-06-01T10:12:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.40</priority>
+</url><url>
+<loc>http://example.com/subpath/tag/tag4.html</loc>
 <lastmod>2014-06-01T10:12:00+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.40</priority>
