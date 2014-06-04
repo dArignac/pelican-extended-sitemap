@@ -8,14 +8,20 @@ Also comes with a XML stylesheet to be able to view the sitemap in browser witho
 
 There is also a `sitemap plugin`_ within the official pelican plugin repo, but it did not produce the expected results for me.
 
-* Github: `https://github.com/dArignac/pelican-extended-sitemap`_
-* PyPI: `https://pypi.python.org/pypi/pelican-extended-sitemap`_
-
 **NOTICE: Backwards incompatible changes in 1.0.0:**
 
 In version 1.0.0 the package naming has been fixed, it's now called "extended_sitemap" (instead "extended-sitemap") following PEP8.
 Please adjust your usages in *PLUGINS* appropriately.
 
+Sources and Status
+------------------
+
+.. image:: https://travis-ci.org/dArignac/pelican-extended-sitemap.svg?branch=master
+.. image:: https://coveralls.io/repos/dArignac/pelican-extended-sitemap/badge.png?branch=master
+    :target: https://coveralls.io/r/dArignac/pelican-extended-sitemap?branch=master
+
+* Github: `https://github.com/dArignac/pelican-extended-sitemap`_
+* PyPI: `https://pypi.python.org/pypi/pelican-extended-sitemap`_
 
 Pelican settings
 ----------------
