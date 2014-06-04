@@ -12,6 +12,7 @@ There is also a `sitemap plugin`_ within the official pelican plugin repo, but i
 * PyPI: `https://pypi.python.org/pypi/pelican-extended-sitemap`_
 
 **NOTICE: Backwards incompatible changes in 1.0.0:**
+
 In version 1.0.0 the package naming has been fixed, it's now called "extended_sitemap" (instead "extended-sitemap") following PEP8.
 Please adjust your usages in *PLUGINS* appropriately.
 
