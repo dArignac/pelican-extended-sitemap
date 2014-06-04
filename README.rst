@@ -67,6 +67,8 @@ The settings below are the default values:
 Tests
 -----
 
+`nose`_ is required to run the tests. Install the package and run with the *nosetest* command.
+
 The tests fixture files were created with generated content by http://jaspervdj.be/lorem-markdownum/.
 
 
@@ -84,3 +86,4 @@ What still has to be implemented:
 .. _pelican translations: http://docs.getpelican.com/en/3.3.0/getting_started.html#translations
 .. _https://github.com/dArignac/pelican-extended-sitemap: https://github.com/dArignac/pelican-extended-sitemap
 .. _https://pypi.python.org/pypi/pelican-extended-sitemap: https://pypi.python.org/pypi/pelican-extended-sitemap
+.. _nose: https://nose.readthedocs.org/en/latest/
