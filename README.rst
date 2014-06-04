@@ -67,7 +67,7 @@ The settings below are the default values:
 Tests
 -----
 
-The tests fixture files were created with generated content by `http://jaspervdj.be/lorem-markdownum/<http://jaspervdj.be/lorem-markdownum/>`_.
+The tests fixture files were created with generated content by http://jaspervdj.be/lorem-markdownum/.
 
 
 ToDos
