@@ -20,7 +20,7 @@ else:
 __version__ = '1.0.0'
 
 
-class ConfigurationError(StandardError):
+class ConfigurationError(Exception):
     """
     Exception class for wrong configurations.
     """

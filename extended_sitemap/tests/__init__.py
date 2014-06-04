@@ -68,11 +68,15 @@ class ExtendedSitemapTest(FileComparisonTest):
         """
         if not settings_override:
             settings_override = {}
-        settings = read_settings(
+
+        settings = self.settings_default.copy()
+        settings.update(settings_override)
+
+        pelican_settings = read_settings(
             path=None,
-            override=dict(self.settings_default.items() + settings_override.items())
+            override=settings
         )
-        pelican = Pelican(settings=settings)
+        pelican = Pelican(settings=pelican_settings)
         mute(True)(pelican.run)()
 
     def test_timezone_missing(self):
