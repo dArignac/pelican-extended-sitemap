@@ -7,6 +7,8 @@ python:
   - "3.2"
   - "3.3"
 install:
-  - "pip install pelican"
+  - "pip install pelican coveralls"
   - "pip install ."
-script: nosetests
+script: nosetests --with-coverage --cover-package=extended_sitemap extended_sitemap
+after_success:
+  coveralls

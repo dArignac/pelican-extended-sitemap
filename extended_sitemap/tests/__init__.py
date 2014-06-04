@@ -99,6 +99,10 @@ class ExtendedSitemapTest(FileComparisonTest):
             os.path.join(self.path_temp, 'sitemap.xml')
         )
 
+    def test_sitemap_structure_subpaths(self):
+        """
+        Tests basic structure of generated sitemap with subpath in domain.
+        """
         # issue #2
         self.__execute_pelican(
             settings_override={
