@@ -4,6 +4,7 @@ from __future__ import unicode_literals, print_function
 import filecmp
 import locale
 import os
+import subprocess
 import unittest
 
 from extended_sitemap import ConfigurationError
@@ -21,8 +22,6 @@ CONTENT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, 'content'))
 EXPECTED_DIR = os.path.abspath(os.path.join(CURRENT_DIR, 'expected'))
 OUTPUT_PATH = os.path.abspath(os.path.join(CURRENT_DIR, 'output'))
 
-# TODO ensure Python 3 works, too
-
 
 class FileComparisonTest(unittest.TestCase):
     """
@@ -36,9 +35,23 @@ class FileComparisonTest(unittest.TestCase):
         :param path_file_test: path to the file to test
         :type path_file_test: str
         """
-        # TODO display differences in files, consider TravisCI possibilities
         if not filecmp.cmp(path_file_expected, path_file_test):
-            self.fail('File content of %(filename)s does not match expected content!' % {'filename': path_file_test})
+            msg_fail = 'File content of %(filename)s does not match expected content!' % {'filename': path_file_test}
+
+            # if there is git and git diff works for both files, append the file diff to the fail message
+            try:
+                out, err = subprocess.Popen(
+                    ['git', 'diff', '--minimal', '--no-color', '--no-ext-diff', '--exit-code', '-w', path_file_expected, path_file_test],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                ).communicate()
+                if len(err) == 0:
+                    msg_fail += '\n\n' + out
+            except OSError:
+                # if there is no git, just don't output the diff
+                pass
+
+            self.fail(msg_fail)
 
 
 class ExtendedSitemapTest(FileComparisonTest):
