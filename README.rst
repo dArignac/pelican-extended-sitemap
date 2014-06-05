@@ -17,6 +17,7 @@ Sources and Status
 ------------------
 
 .. image:: https://travis-ci.org/dArignac/pelican-extended-sitemap.svg?branch=master
+    :target: https://travis-ci.org/dArignac/pelican-extended-sitemap
 .. image:: https://coveralls.io/repos/dArignac/pelican-extended-sitemap/badge.png?branch=master
     :target: https://coveralls.io/r/dArignac/pelican-extended-sitemap?branch=master
 
