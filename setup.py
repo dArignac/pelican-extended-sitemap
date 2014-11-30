@@ -46,7 +46,7 @@ setup(
         ],
     },
     requires=[
-        'pelican>=3.5'
+        'pelican'
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
