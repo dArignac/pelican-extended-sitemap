@@ -17,7 +17,7 @@ else:
     from urlparse import urljoin
 
 # @see http://semver.org/
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 
 class ConfigurationError(Exception):
@@ -181,7 +181,7 @@ class SitemapGenerator(object):
         """
         return self.template_url % {
             'loc': url if url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format)),
-            'lastmod': self.timezone.localize(modification_time).isoformat() if modification_time is not None else self.timezone.localize(content.date).isoformat(),
+            'lastmod': modification_time.strftime('%Y-%m-%d') if modification_time is not None else content.date.strftime('%Y-%m-%d'),
             'changefreq': self.settings.get('changefrequencies').get(content_type),
             'priority': self.settings.get('priorities').get(content_type),
         }
