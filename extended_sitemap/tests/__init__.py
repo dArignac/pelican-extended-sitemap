@@ -46,7 +46,7 @@ class FileComparisonTest(unittest.TestCase):
                     stderr=subprocess.PIPE,
                 ).communicate()
                 if len(err) == 0:
-                    msg_fail += '\n\n' + out
+                    msg_fail += '\n\n' + out.decode('utf-8')
             except OSError:
                 # if there is no git, just don't output the diff
                 pass
