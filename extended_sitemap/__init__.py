@@ -16,9 +16,6 @@ if sys.version_info >= (3, 0):
 else:
     from urlparse import urljoin
 
-# @see http://semver.org/
-__version__ = '1.0.1'
-
 
 class ConfigurationError(Exception):
     """

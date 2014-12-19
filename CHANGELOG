@@ -1,3 +1,10 @@
+1.0.1
+-----
+
+* fixed compatibility with Pelican 3.5
+* dates are now W3C compliant and do not include time
+* adjusted setup.py
+
 1.0.0
 -----
 

@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 import codecs
-import os
-import re
 
 from setuptools import setup
 
@@ -10,24 +8,11 @@ with codecs.open('README.rst', encoding='utf-8') as f:
     long_description = f.read()
 
 
-def get_version():
-    """
-    Returns the version of the package from the __init__ file.
-    :return: version number
-    :rtype: str
-    """
-    with codecs.open(os.path.join(os.path.dirname(__file__), 'extended_sitemap', '__init__.py'), encoding='utf-8') as f:
-        version_file = f.read()
-        version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
-        if version_match:
-            return version_match.group(1)
-        raise RuntimeError('Unable to fetch version')
-
-
 setup(
     name='pelican-extended-sitemap',
     description='sitemap generator plugin for pelican',
-    version=get_version(),
+    # @see http://semver.org/
+    version='1.0.1',
     author='Alexander Herrmann',
     author_email='darignac@gmail.com',
     license='MIT',
@@ -49,7 +34,7 @@ setup(
         'pelican'
     ],
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
