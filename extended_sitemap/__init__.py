@@ -129,13 +129,16 @@ class SitemapGenerator(object):
             )
 
         # process category pages
-        urls += self.__process_url_wrapper_elements(self.context.get('categories'))
+        if self.context.get('CATEGORY_URL'):
+            urls += self.__process_url_wrapper_elements(self.context.get('categories'))
 
         # process tag pages
-        urls += self.__process_url_wrapper_elements(sorted(self.context.get('tags'), key=lambda x: x[0].name))
+        if self.context.get('TAG_URL'):
+            urls += self.__process_url_wrapper_elements(sorted(self.context.get('tags'), key=lambda x: x[0].name))
 
         # process author pages
-        urls += self.__process_url_wrapper_elements(self.context.get('authors'))
+        if self.context.get('AUTHOR_URL'):
+            urls += self.__process_url_wrapper_elements(self.context.get('authors'))
 
         # write the final sitemap file
         with open(os.path.join(self.path_output, 'sitemap.xml'), 'w', encoding='utf-8') as fd:
