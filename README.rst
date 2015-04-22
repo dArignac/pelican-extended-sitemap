@@ -6,7 +6,11 @@ A sitemap plugin for `Pelican`_.
 It generates a sitemap.xml according to the specification of `sitemaps.org`_ and considers the pelican index page, articles, pages and special pages (like tags, categories, authors).
 Also comes with a XML stylesheet to be able to view the sitemap in browser without pain.
 
-There is also a `sitemap plugin`_ within the official pelican plugin repo, but it did not produce the expected results for me.
+There is also a `sitemap plugin`_ within the official pelican plugin repo. The main differences in my package are:
+
+* the overview pages for tags, pages aso are included
+* there is a stylesheet
+* used dates do not include time
 
 **NOTICE: Backwards incompatible changes in 1.0.0:**
 
