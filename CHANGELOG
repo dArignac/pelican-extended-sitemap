@@ -1,3 +1,11 @@
+1.0.2
+-----
+
+* if the following settings are not set, no sitemap entry is generated for the appropriate pages
+    * CATEGORY_URL
+    * TAG_URL
+    * AUTHOR_URL
+
 1.0.1
 -----
 
