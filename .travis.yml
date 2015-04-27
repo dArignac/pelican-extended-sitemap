@@ -1,11 +1,18 @@
 language: python
 python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
+- '2.7'
+- '3.3'
+- '3.4'
 install:
-  - "pip install Markdown pelican coveralls"
-  - "pip install ."
+- pip install Markdown pelican coveralls
+- pip install .
 script: nosetests --with-coverage --cover-package=extended_sitemap extended_sitemap
-after_success:
-  coveralls
+after_success: coveralls
+deploy:
+  provider: pypi
+  user: dArignac
+  password:
+    secure: gCyGQk6M/0KZSojLfICwCkaEIp0CvFAqRw+Ds0nStBowzHSANMAo4aEbxfMlPvDMn80NxG4Gi5UxDWtwgEHc3Nee62X2JMEeb6OYVDQlORBkotEcDBp/PFD3TtkIBYU2GVViwSQtBADxnZRc67HLe86Yf6hWBljmKGF4dkMHYbM=
+  on:
+    tags: true
+    repo: dArignac/pelican-extended-sitemap
