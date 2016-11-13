@@ -1,2 +1,2 @@
 [run]
-omit = extended_sitemap/tests
+omit = extended_sitemap/tests/*.py
