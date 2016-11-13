@@ -4,16 +4,21 @@ from __future__ import unicode_literals, print_function
 import filecmp
 import locale
 import os
+import re
 import subprocess
+import sys
 import unittest
 
 from extended_sitemap import ConfigurationError
+
+from functools import wraps
 
 from tempfile import mkdtemp
 
 from pelican import Pelican
 from pelican.settings import read_settings
-from pelican.tests.support import mute
+
+from six import StringIO
 
 
 # used paths
@@ -21,6 +26,76 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CONTENT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, 'content'))
 EXPECTED_DIR = os.path.abspath(os.path.join(CURRENT_DIR, 'expected'))
 OUTPUT_PATH = os.path.abspath(os.path.join(CURRENT_DIR, 'output'))
+
+
+def isplit(s, sep=None):
+    """Behaves like str.split but returns a generator instead of a list.
+    >>> list(isplit('\tUse the force\n')) == '\tUse the force\n'.split()
+    True
+    >>> list(isplit('\tUse the force\n')) == ['Use', 'the', 'force']
+    True
+    >>> (list(isplit('\tUse the force\n', "e"))
+         == '\tUse the force\n'.split("e"))
+    True
+    >>> list(isplit('Use the force', "e")) == 'Use the force'.split("e")
+    True
+    >>> list(isplit('Use the force', "e")) == ['Us', ' th', ' forc', '']
+    True
+    """
+    sep, hardsep = r'\s+' if sep is None else re.escape(sep), sep is not None
+    exp, pos, l = re.compile(sep), 0, len(s)
+    while True:
+        m = exp.search(s, pos)
+        if not m:
+            if pos < l or hardsep:
+                #      ^ mimic "split()": ''.split() returns []
+                yield s[pos:]
+            break
+        start = m.start()
+        if pos < start or hardsep:
+            #           ^ mimic "split()": includes trailing empty string
+            yield s[pos:start]
+        pos = m.end()
+
+
+def mute(returns_output=False):
+    """Decorate a function that prints to stdout, intercepting the output.
+    If "returns_output" is True, the function will return a generator
+    yielding the printed lines instead of the return values.
+    The decorator literally hijack sys.stdout during each function
+    execution, so be careful with what you apply it to.
+    >>> def numbers():
+        print "42"
+        print "1984"
+    ...
+    >>> numbers()
+    42
+    1984
+    >>> mute()(numbers)()
+    >>> list(mute(True)(numbers)())
+    ['42', '1984']
+    """
+
+    def decorator(func):
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+
+            saved_stdout = sys.stdout
+            sys.stdout = StringIO()
+
+            try:
+                out = func(*args, **kwargs)
+                if returns_output:
+                    out = isplit(sys.stdout.getvalue().strip())
+            finally:
+                sys.stdout = saved_stdout
+
+            return out
+
+        return wrapper
+
+    return decorator
 
 
 class FileComparisonTest(unittest.TestCase):
