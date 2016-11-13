@@ -7,7 +7,7 @@ install:
 - pip install Markdown pelican coveralls
 - pip install .
 script: nosetests --with-coverage --cover-package=extended_sitemap extended_sitemap
-after_success: coveralls
+after_success: coveralls --config_file .coveragerc
 deploy:
   provider: pypi
   user: dArignac
