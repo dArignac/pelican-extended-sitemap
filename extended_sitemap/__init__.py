@@ -4,7 +4,7 @@ from __future__ import unicode_literals, print_function
 import os
 import sys
 
-from codecs import open
+from codecs import open as codecs_open
 
 from pelican import signals
 
@@ -92,8 +92,8 @@ class SitemapGenerator(object):
         :type writer: pelican.writers.Writer
         """
         # write xml stylesheet
-        with open(os.path.join(os.path.dirname(__file__), 'sitemap-stylesheet.xsl'), 'r', encoding='utf-8') as fd_origin:
-            with open(os.path.join(self.path_output, 'sitemap-stylesheet.xsl'), 'w', encoding='utf-8') as fd_destination:
+        with codecs_open(os.path.join(os.path.dirname(__file__), 'sitemap-stylesheet.xsl'), 'r', encoding='utf-8') as fd_origin:
+            with codecs_open(os.path.join(self.path_output, 'sitemap-stylesheet.xsl'), 'w', encoding='utf-8') as fd_destination:
                 xsl = fd_origin.read()
                 # replace some template markers
                 # TODO use pelican template magic
@@ -151,7 +151,7 @@ class SitemapGenerator(object):
             urls += self.__process_url_wrapper_elements(self.context.get('authors'))
 
         # write the final sitemap file
-        with open(os.path.join(self.path_output, 'sitemap.xml'), 'w', encoding='utf-8') as fd:
+        with codecs_open(os.path.join(self.path_output, 'sitemap.xml'), 'w', encoding='utf-8') as fd:
             fd.write(self.xml_wrap % {
                 'SITEURL': self.url_site,
                 'urls': urls
