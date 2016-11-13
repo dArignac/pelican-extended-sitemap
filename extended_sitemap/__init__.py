@@ -107,21 +107,32 @@ class SitemapGenerator(object):
         # get all articles sorted by time
         articles_sorted = sorted(self.context['articles'], key=lambda x: x.date, reverse=True)
 
+        # get all pages sorted by time
+        pages_sorted = sorted(self.context.get('pages'), key=lambda x: x.date, reverse=True)
+
         # the landing page
         if 'index' in self.context.get('DIRECT_TEMPLATES'):
-            # assume that the index page has changed with the most current article
-            urls += self.__create_url_node_for_content(
-                articles_sorted[0],
-                'index',
-                url=self.url_site,
-            )
+            # assume that the index page has changed with the most current article or page
+            # use the first article or page if no articles
+            index_reference = None
+            if len(articles_sorted) > 0:
+                index_reference = articles_sorted[0]
+            elif len(pages_sorted) > 0:
+                index_reference = pages_sorted[0]
+
+            if index_reference is not None:
+                urls += self.__create_url_node_for_content(
+                    index_reference,
+                    'index',
+                    url=self.url_site,
+                )
 
         # process articles
         for article in articles_sorted:
             urls += self.__create_url_node_for_content(article, 'articles')
 
         # process pages
-        for page in sorted(self.context.get('pages'), key=lambda x: x.date, reverse=True):
+        for page in pages_sorted:
             urls += self.__create_url_node_for_content(
                 page,
                 'pages',
