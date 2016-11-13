@@ -1,6 +1,6 @@
 1.0.3
 -----
-* fixed failure in sitempa generation if there are no articles `#5 <https://github.com/dArignac/pelican-extended-sitemap/issues/5>`__
+* fixed failure in sitemap generation if there are no articles `#5 <https://github.com/dArignac/pelican-extended-sitemap/issues/5>`__
 
 1.0.2
 -----
