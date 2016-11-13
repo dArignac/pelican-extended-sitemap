@@ -82,6 +82,10 @@ Tests
 
 The tests fixture files were created with generated content by http://jaspervdj.be/lorem-markdownum/.
 
+Changelog
+---------
+see `Github release page`_.
+
 
 ToDos
 -----
@@ -98,3 +102,4 @@ What still has to be implemented:
 .. _https://github.com/dArignac/pelican-extended-sitemap: https://github.com/dArignac/pelican-extended-sitemap
 .. _https://pypi.python.org/pypi/pelican-extended-sitemap: https://pypi.python.org/pypi/pelican-extended-sitemap
 .. _nose: https://nose.readthedocs.org/en/latest/
+.. _Github release page: https://github.com/dArignac/pelican-extended-sitemap/releases
