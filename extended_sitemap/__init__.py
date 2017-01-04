@@ -104,10 +104,10 @@ class SitemapGenerator(object):
         urls = ''
 
         # get all articles sorted by time
-        articles_sorted = sorted(self.context['articles'], key=lambda x: x.date, reverse=True)
+        articles_sorted = sorted(self.context['articles'], key=self.__get_date_key, reverse=True)
 
         # get all pages sorted by time
-        pages_sorted = sorted(self.context.get('pages'), key=lambda x: x.date, reverse=True)
+        pages_sorted = sorted(self.context.get('pages'), key=self.__get_date_key, reverse=True)
 
         # the landing page
         if 'index' in self.context.get('DIRECT_TEMPLATES'):
@@ -171,7 +171,7 @@ class SitemapGenerator(object):
                 url_wrapper,
                 'others',
                 url=urljoin(self.url_site, url_wrapper.url),
-                modification_time=sorted(articles, key=lambda x: x.date, reverse=True)[0].date
+                modification_time=self.__get_date_key(sorted(articles, key=self.__get_date_key, reverse=True)[0])
             )
         return urls
 
@@ -191,10 +191,14 @@ class SitemapGenerator(object):
         """
         return self.template_url % {
             'loc': url if url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format)),
-            'lastmod': modification_time.strftime('%Y-%m-%d') if modification_time is not None else content.date.strftime('%Y-%m-%d'),
+            'lastmod': modification_time.strftime('%Y-%m-%d') if modification_time is not None else self.__get_date_key(content).strftime('%Y-%m-%d'),
             'changefreq': self.settings.get('changefrequencies').get(content_type),
             'priority': self.settings.get('priorities').get(content_type),
         }
+
+    @staticmethod
+    def __get_date_key(object):
+        return getattr(object, 'modified', None) or object.date
 
 
 def get_generators(generators):
