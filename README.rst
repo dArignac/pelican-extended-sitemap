@@ -94,6 +94,11 @@ What still has to be implemented:
 
 * support for multilingual content, see `pelican translations`_ (it in fact may work, but I have not tested it)
 
+Authors
+-------
+* `dArignac <https://github.com/dArignac>`__
+* `wamomite <https://github.com/wamonite>`__ (`Pull Request #8 <https://github.com/dArignac/pelican-extended-sitemap/pull/8>`__)
+
 
 .. _Pelican: https://github.com/getpelican/pelican
 .. _sitemaps.org: http://sitemaps.org
