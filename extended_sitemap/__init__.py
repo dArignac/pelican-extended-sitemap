@@ -197,8 +197,8 @@ class SitemapGenerator(object):
         }
 
     @staticmethod
-    def __get_date_key(object):
-        return getattr(object, 'modified', None) or object.date
+    def __get_date_key(obj):
+        return getattr(obj, 'modified', None) or obj.date
 
 
 def get_generators(generators):
