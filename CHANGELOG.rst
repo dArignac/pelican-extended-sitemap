@@ -1,3 +1,7 @@
+1.0.4
+-----
+* respect ``Modified`` meta value `#8 <https://github.com/dArignac/pelican-extended-sitemap/pull/8>`__
+
 1.0.3
 -----
 * fixed failure in sitemap generation if there are no articles `#5 <https://github.com/dArignac/pelican-extended-sitemap/issues/5>`__
