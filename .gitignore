@@ -53,6 +53,6 @@ coverage.xml
 docs/_build/
 
 # project specific
-.idea
+.env
 dist
 pelican.conf.default.py
