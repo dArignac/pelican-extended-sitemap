@@ -202,3 +202,20 @@ class ExtendedSitemapTest(FileComparisonTest):
             os.path.join(EXPECTED_DIR, 'test_sitemap_structure_subpath.xml'),
             os.path.join(self.path_temp, 'sitemap.xml')
         )
+    
+    def test_sitemap_structure_custom_article_url(self):
+        """
+        Tests basic structure of generated sitemap with customized ARTICLE_URL and ARTICLE_SAVE_AS settings.
+        """
+        # issue #2
+        self.__execute_pelican(
+            settings_override={
+                'TIMEZONE': 'Europe/Berlin',
+                'ARTICLE_URL': 'customarticles/{date:%Y}/{date:%b}/{date:%d}/{slug}/',
+                'ARTICLE_SAVE_AS': '{slug}.custom.html',
+            }
+        )
+        self.assertFileContentEquals(
+            os.path.join(EXPECTED_DIR, 'test_sitemap_structure_custom_article_url.xml'),
+            os.path.join(self.path_temp, 'sitemap.xml')
+        )
