@@ -13,7 +13,7 @@ deploy:
   provider: pypi
   user: dArignac
   password:
-    secure: dCYOQ7KFi/olof0zUtPo8kM0zvc4oX+BPEfxNPYWYM1opH208kY2YzOGjpAtGUvkojdlXcECO0Uvs02QPXzB+l0NinfcpH4l2bVbc9LtiWY6QhQreMG2ZJQhygwEwKUJ2Wy9TiWM0nm4d5Xo/cpmyzcWP7UTjN3fqwa3S/wpu3w=
+    secure: CewauX7oTjNfo6rJkJ5nys26ZzDeU/8S4GpveZF8rIpzs8DKxvfjs8tnCPn/GOCz2/FCfGkeOnzYTaB4NpJlRALCrS9ktJqKw7BjNQUABKIH6R7J9h2b0lPyB/CZmyhmCm7DYeJbwRcG9tL9FF7ypFG1qABku1ky2WBO67dYVLg=
   on:
     tags: true
     repo: dArignac/pelican-extended-sitemap
