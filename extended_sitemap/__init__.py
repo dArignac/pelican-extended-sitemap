@@ -128,7 +128,11 @@ class SitemapGenerator(object):
 
         # process articles
         for article in articles_sorted:
-            urls += self.__create_url_node_for_content(article, 'articles')
+            urls += self.__create_url_node_for_content(
+                article,
+                'articles',
+                url=urljoin(self.url_site, article.url)
+            )
 
         # process pages
         for page in pages_sorted:
