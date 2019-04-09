@@ -1,8 +1,8 @@
-TBA
----
-* fixed generation for pages without `Date` and `Modified` `#10 <https://github.com/dArignac/pelican-extended-sitemap/issues/10>`__
+1.1.0
+-----
 * dropped support for Python 3.3
 * added support for Python 3.6
+* fixed generation for pages without `Date` and `Modified` `#10 <https://github.com/dArignac/pelican-extended-sitemap/issues/10>`__
 
 1.0.5
 -----

@@ -12,7 +12,7 @@ setup(
     name='pelican-extended-sitemap',
     description='sitemap generator plugin for pelican',
     # @see http://semver.org/
-    version='1.0.5',
+    version='1.1.0',
     author='Alexander Herrmann',
     author_email='darignac@gmail.com',
     license='MIT',
