@@ -1,3 +1,13 @@
+TBA
+---
+* fixed generation for pages without `Date` and `Modified` `#10 <https://github.com/dArignac/pelican-extended-sitemap/issues/10>`__
+* dropped support for Python 3.3
+* added support for Python 3.6
+
+1.0.5
+-----
+* added support for custom `ARTICLE_URL` and `ARTICLE_SAVE_AS` values (thanks to `@wAmpIre <https://github.com/wAmpIre>`__)
+
 1.0.4
 -----
 * respect ``Modified`` meta value `#8 <https://github.com/dArignac/pelican-extended-sitemap/pull/8>`__
