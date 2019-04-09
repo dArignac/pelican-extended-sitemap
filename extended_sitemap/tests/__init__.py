@@ -165,7 +165,7 @@ class ExtendedSitemapTest(FileComparisonTest):
             override=settings
         )
         pelican = Pelican(settings=pelican_settings)
-        mute(True)(pelican.run)()
+        pelican.run()
 
     def test_timezone_missing(self):
         """

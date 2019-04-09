@@ -34,10 +34,7 @@ class SitemapGenerator(object):
 </urlset>"""
 
     template_url = """<url>
-<loc>%(loc)s</loc>
-<lastmod>%(lastmod)s</lastmod>
-<changefreq>%(changefreq)s</changefreq>
-<priority>%(priority).2f</priority>
+{}
 </url>"""
 
     settings_default = {
@@ -106,8 +103,26 @@ class SitemapGenerator(object):
         # get all articles sorted by time
         articles_sorted = sorted(self.context['articles'], key=self.__get_date_key, reverse=True)
 
-        # get all pages sorted by time
-        pages_sorted = sorted(self.context.get('pages'), key=self.__get_date_key, reverse=True)
+        # get all pages with date/modified date
+        pages_with_date = list(
+            filter(
+                lambda p: getattr(p, 'modified', False) or getattr(p, 'date', False),
+                self.context.get('pages')
+            )
+        )
+        pages_with_date_sorted = sorted(pages_with_date, key=self.__get_date_key, reverse=True)
+
+        # get all pages without date
+        pages_without_date = list(
+            filter(
+                lambda p: getattr(p, 'modified', None) is None and getattr(p, 'date', None) is None,
+                self.context.get('pages')
+            )
+        )
+        pages_without_date_sorted = sorted(pages_without_date, key=self.__get_title_key, reverse=False)
+
+        # join them, first date sorted, then title sorted
+        pages_sorted = pages_with_date_sorted + pages_without_date_sorted
 
         # the landing page
         if 'index' in self.context.get('DIRECT_TEMPLATES'):
@@ -193,16 +208,31 @@ class SitemapGenerator(object):
         :returns: the text node
         :rtype: str
         """
-        return self.template_url % {
-            'loc': url if url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format)),
-            'lastmod': modification_time.strftime('%Y-%m-%d') if modification_time is not None else self.__get_date_key(content).strftime('%Y-%m-%d'),
-            'changefreq': self.settings.get('changefrequencies').get(content_type),
-            'priority': self.settings.get('priorities').get(content_type),
-        }
+        loc = url if url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format))
+        lastmod = None
+        if modification_time is not None:
+            lastmod = modification_time.strftime('%Y-%m-%d')
+        else:
+            if getattr(content, 'modified', None) is not None:
+                lastmod = getattr(content, 'modified').strftime('%Y-%m-%d')
+            elif getattr(content, 'date', None) is not None:
+                lastmod = getattr(content, 'date').strftime('%Y-%m-%d')
+
+        content = "<loc>{}</loc>".format(loc)
+        if lastmod is not None:
+            content += "\n<lastmod>{}</lastmod>".format(lastmod)
+        content += "\n<changefreq>{}</changefreq>".format(self.settings.get('changefrequencies').get(content_type))
+        content += "\n<priority>{:.2f}</priority>".format(self.settings.get('priorities').get(content_type))
+
+        return self.template_url.format(content)
 
     @staticmethod
     def __get_date_key(obj):
         return getattr(obj, 'modified', None) or obj.date
+
+    @staticmethod
+    def __get_title_key(obj):
+        return getattr(obj, 'title')
 
 
 def get_generators(generators):
