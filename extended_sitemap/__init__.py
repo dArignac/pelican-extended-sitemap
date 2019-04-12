@@ -169,6 +169,19 @@ class SitemapGenerator(object):
         if self.context.get('AUTHOR_URL'):
             urls += self.__process_url_wrapper_elements(self.context.get('authors'))
 
+        # handle all DIRECT_TEMPLATES but "index"
+        for direct_template in list(filter(lambda p: p != 'index', self.context.get('DIRECT_TEMPLATES'))):
+            # we assume the modification date of the last article as modification date for the listings of
+            # categories, authors and archives (all values of DIRECT_TEMPLATES but "index")
+            modification_time = getattr(articles_sorted[0], 'modified', getattr(articles_sorted[0], 'date', None))
+
+            url = urljoin(
+                self.url_site,
+                self.settings.get("%s_URL" % direct_template.upper(), '%s.html' % direct_template)
+            )
+
+            urls += self.__create_url_node_for_content(None, 'others', url, modification_time)
+
         # write the final sitemap file
         with codecs_open(os.path.join(self.path_output, 'sitemap.xml'), 'w', encoding='utf-8') as fd:
             fd.write(self.xml_wrap % {
@@ -198,33 +211,36 @@ class SitemapGenerator(object):
         """
         Creates the required <url> node for the sitemap xml.
         :param content: the content class to handle
-        :type content: pelican.contents.Content
+        :type content: pelican.contents.Content | None
         :param content_type: the type of the given content to match settings.EXTENDED_SITEMAP_PLUGIN
         :type content_type; str
         :param url; if given, the URL to use instead of the url of the content instance
         :type url: str
         :param modification_time: the modification time of the url, will be used instead of content date if given
-        :type modification_time: datetime.datetime
+        :type modification_time: datetime.datetime | None
         :returns: the text node
         :rtype: str
         """
-        loc = url if url is not None else urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format))
+        loc = url
+        if loc is None:
+            loc = urljoin(self.url_site, self.context.get('ARTICLE_URL').format(**content.url_format))
         lastmod = None
         if modification_time is not None:
             lastmod = modification_time.strftime('%Y-%m-%d')
         else:
-            if getattr(content, 'modified', None) is not None:
-                lastmod = getattr(content, 'modified').strftime('%Y-%m-%d')
-            elif getattr(content, 'date', None) is not None:
-                lastmod = getattr(content, 'date').strftime('%Y-%m-%d')
+            if content is not None:
+                if getattr(content, 'modified', None) is not None:
+                    lastmod = getattr(content, 'modified').strftime('%Y-%m-%d')
+                elif getattr(content, 'date', None) is not None:
+                    lastmod = getattr(content, 'date').strftime('%Y-%m-%d')
 
-        content = "<loc>{}</loc>".format(loc)
+        output = "<loc>{}</loc>".format(loc)
         if lastmod is not None:
-            content += "\n<lastmod>{}</lastmod>".format(lastmod)
-        content += "\n<changefreq>{}</changefreq>".format(self.settings.get('changefrequencies').get(content_type))
-        content += "\n<priority>{:.2f}</priority>".format(self.settings.get('priorities').get(content_type))
+            output += "\n<lastmod>{}</lastmod>".format(lastmod)
+        output += "\n<changefreq>{}</changefreq>".format(self.settings.get('changefrequencies').get(content_type))
+        output += "\n<priority>{:.2f}</priority>".format(self.settings.get('priorities').get(content_type))
 
-        return self.template_url.format(content)
+        return self.template_url.format(output)
 
     @staticmethod
     def __get_date_key(obj):
