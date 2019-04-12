@@ -1,3 +1,7 @@
+1.2.0
+-----
+* included the `DIRECT_TEMPLATE` pages into sitemap `#11 <https://github.com/dArignac/pelican-extended-sitemap/issues/11>`__
+
 1.1.0
 -----
 * dropped support for Python 3.3

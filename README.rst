@@ -94,11 +94,18 @@ What still has to be implemented:
 
 * support for multilingual content, see `pelican translations`_ (it in fact may work, but I have not tested it)
 
-Authors
--------
-* `dArignac <https://github.com/dArignac>`__
+Contributors
+------------
+**Thanks to all contributers!**
+
+* `dArignac <https://github.com/dArignac>`__  (Owner)
 * `wamomite <https://github.com/wamonite>`__ (`Pull Request #8 <https://github.com/dArignac/pelican-extended-sitemap/pull/8>`__)
 * `wAmpIre <https://github.com/wAmpIre>`__ (`Pull Request #9 <https://github.com/dArignac/pelican-extended-sitemap/pull/9>`__)
+
+Bug Reporters:
+
+* `jakub-olczyk <https://github.com/jakub-olczyk>`__
+* `VorpalBlade <https://github.com/VorpalBlade>`__
 
 
 .. _Pelican: https://github.com/getpelican/pelican
