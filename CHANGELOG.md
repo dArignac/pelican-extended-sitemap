@@ -1,6 +1,6 @@
 # Changelog
 
-## TBA
+## 1.2.1
 * fixed `DIRECT_TEMPLATE` usage with `_SAVE_AS` settings [#14]
 
 ## 1.2.0
