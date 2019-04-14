@@ -20,7 +20,6 @@ from pelican.settings import read_settings
 
 from six import StringIO
 
-
 # used paths
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 CONTENT_DIR = os.path.abspath(os.path.join(CURRENT_DIR, 'content'))
@@ -102,6 +101,7 @@ class FileComparisonTest(unittest.TestCase):
     """
     Unittest class with possibility to assert equal file contents.
     """
+
     def assertFileContentEquals(self, path_file_expected, path_file_test):
         """
         Asserts the file contents to be equal.
@@ -202,7 +202,7 @@ class ExtendedSitemapTest(FileComparisonTest):
             os.path.join(EXPECTED_DIR, 'test_sitemap_structure_subpath.xml'),
             os.path.join(self.path_temp, 'sitemap.xml')
         )
-    
+
     def test_sitemap_structure_custom_article_url(self):
         """
         Tests basic structure of generated sitemap with customized ARTICLE_URL and ARTICLE_SAVE_AS settings.
