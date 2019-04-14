@@ -68,6 +68,7 @@ class SitemapGenerator(object):
         :param kwargs: additional keyword arguments
         :type kwargs: dict
         """
+        self.pelican_settings = settings
         self.path_content = path
         self.path_output = output_path
         self.context = context
@@ -174,12 +175,7 @@ class SitemapGenerator(object):
             # we assume the modification date of the last article as modification date for the listings of
             # categories, authors and archives (all values of DIRECT_TEMPLATES but "index")
             modification_time = getattr(articles_sorted[0], 'modified', getattr(articles_sorted[0], 'date', None))
-
-            url = urljoin(
-                self.url_site,
-                self.settings.get("%s_URL" % direct_template.upper(), '%s.html' % direct_template)
-            )
-
+            url = self.__get_direct_template_url(direct_template)
             urls += self.__create_url_node_for_content(None, 'others', url, modification_time)
 
         # write the final sitemap file
@@ -188,6 +184,18 @@ class SitemapGenerator(object):
                 'SITEURL': self.url_site,
                 'urls': urls
             })
+
+    def __get_direct_template_url(self, name):
+        """
+        Returns the URL for the given DIRECT_TEMPLATE name.
+        Favors ${DIRECT_TEMPLATE}_SAVE_AS over the default path.
+        :param name: name of the direct template
+        :return: str
+        """
+        url = self.pelican_settings.get('{}_SAVE_AS'.format(name.upper()))
+        if url is None:
+            url = self.settings.get('{}_URL'.format(name.upper()), '{}.html'.format(name))
+        return urljoin(self.url_site, url)
 
     def __process_url_wrapper_elements(self, elements):
         """

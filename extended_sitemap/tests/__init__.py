@@ -219,3 +219,22 @@ class ExtendedSitemapTest(FileComparisonTest):
             os.path.join(EXPECTED_DIR, 'test_sitemap_structure_custom_article_url.xml'),
             os.path.join(self.path_temp, 'sitemap.xml')
         )
+
+    def test_sitemap_structure_with_custom_direct_template_filenames(self):
+        """
+        Tests sitemap structure with custom %s_SAVE_AS values for DIRECT_TEMPLATES.
+        Source: https://github.com/dArignac/pelican-extended-sitemap/issues/14
+        """
+        self.__execute_pelican(
+            settings_override={
+                'TIMEZONE': 'Europe/Berlin',
+                'TAGS_SAVE_AS': 'abc/tags.html',
+                'CATEGORIES_SAVE_AS': 'cats/meow/something.txt',
+                'AUTHORS_SAVE_AS': 'those-writers.html',
+                'ARCHIVES_SAVE_AS': 'our-curated-library.html',
+            }
+        )
+        self.assertFileContentEquals(
+            os.path.join(EXPECTED_DIR, 'test_sitemap_structure_direct_templates.xml'),
+            os.path.join(self.path_temp, 'sitemap.xml')
+        )
