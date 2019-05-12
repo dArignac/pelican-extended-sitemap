@@ -188,13 +188,21 @@ class SitemapGenerator(object):
     def __get_direct_template_url(self, name):
         """
         Returns the URL for the given DIRECT_TEMPLATE name.
-        Favors ${DIRECT_TEMPLATE}_SAVE_AS over the default path.
+        Resolution order is:
+        1. ${DIRECT_TEMPLATE}_URL (custom property, no Pelican default)
+        2. ${DIRECT_TEMPLATE}_SAVE_AS
+        3. Default path
         :param name: name of the direct template
         :return: str
         """
-        url = self.pelican_settings.get('{}_SAVE_AS'.format(name.upper()))
-        if url is None:
-            url = self.settings.get('{}_URL'.format(name.upper()), '{}.html'.format(name))
+        name_upper = name.upper()
+        url = self.pelican_settings.get(
+            '{}_URL'.format(name_upper),
+            self.pelican_settings.get(
+                '{}_SAVE_AS'.format(name_upper),
+                '{}.html'.format(name)
+            )
+        )
         return urljoin(self.url_site, url)
 
     def __process_url_wrapper_elements(self, elements):

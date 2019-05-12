@@ -75,6 +75,19 @@ The settings below are the default values:
         }
     }
 
+Paths for DIRECT_TEMPLATES
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+The value of the paths for `DIRECT_TEMPLATES`_ are defined by the following order:
+
+(``{NAME}`` stands for the direct template name, e.g. ``ARCHIVES`` for archives.)
+
+1. if the setting ``{NAME}_URL`` is defined, use ``{NAME}_URL``
+2. if the setting ``{NAME}_URL`` is not defined but the setting ``{NAME}_SAVE_AS`` is, use ``{NAME}_SAVE_AS``
+3. if none of the above applies, use the default filename ``{NAME}.html``
+
+Note that ``{NAME}_URL`` is not a default Pelican setting.
+
+
 Tests
 -----
 
@@ -116,3 +129,4 @@ Bug Reporters:
 .. _https://pypi.python.org/pypi/pelican-extended-sitemap: https://pypi.python.org/pypi/pelican-extended-sitemap
 .. _nose: https://nose.readthedocs.org/en/latest/
 .. _Github release page: https://github.com/dArignac/pelican-extended-sitemap/releases
+.. _DIRECT_TEMPLATES: https://docs.getpelican.com/en/stable/settings.html?highlight=DIRECT_TEMPLATES#template-pages
