@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.2
+* fixed `DIRECT_TEMPLATE` Paths `_URL` settings [#15]
+
 ## 1.2.1
 * fixed `DIRECT_TEMPLATE` usage with `_SAVE_AS` settings [#14]
 
