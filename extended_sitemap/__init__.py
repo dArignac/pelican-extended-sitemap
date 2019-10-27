@@ -174,9 +174,10 @@ class SitemapGenerator(object):
         for direct_template in list(filter(lambda p: p != 'index', self.context.get('DIRECT_TEMPLATES'))):
             # we assume the modification date of the last article as modification date for the listings of
             # categories, authors and archives (all values of DIRECT_TEMPLATES but "index")
-            modification_time = getattr(articles_sorted[0], 'modified', getattr(articles_sorted[0], 'date', None))
-            url = self.__get_direct_template_url(direct_template)
-            urls += self.__create_url_node_for_content(None, 'others', url, modification_time)
+            if len(articles_sorted) > 0:
+                modification_time = getattr(articles_sorted[0], 'modified', getattr(articles_sorted[0], 'date', None))
+                url = self.__get_direct_template_url(direct_template)
+                urls += self.__create_url_node_for_content(None, 'others', url, modification_time)
 
         # write the final sitemap file
         with codecs_open(os.path.join(self.path_output, 'sitemap.xml'), 'w', encoding='utf-8') as fd:
