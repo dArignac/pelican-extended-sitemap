@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.3
+* fixed issue if there are no articles
+
 ## 1.2.2
 * fixed `DIRECT_TEMPLATE` Paths `_URL` settings [#15]
 
