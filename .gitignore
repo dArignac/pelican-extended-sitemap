@@ -37,5 +37,6 @@ coverage.xml
 # project specific
 .env
 .idea
+.vscode
 dist
 pelican.conf.default.py
