@@ -1,5 +1,8 @@
 # Changelog
 
+## TBA
+* added Pelican plugin classifier to `setup.py`
+
 ## 1.2.3
 * fixed issue if there are no articles
 
