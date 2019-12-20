@@ -5,7 +5,7 @@ python:
 - '3.5'
 - '3.6'
 install:
-- pip install Markdown coveralls
+- pip install Markdown pelican coveralls
 - pip install .
 script: nosetests --with-coverage --cover-package=extended_sitemap extended_sitemap
 after_success: coveralls
